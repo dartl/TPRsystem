@@ -15,12 +15,13 @@ public class HelloController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) {
+
+
 		return "hello";
 	}
 
-    @RequestMapping(value = "solveForm",method = RequestMethod.GET)
+    @RequestMapping(value = "/solveForm",method = RequestMethod.GET)
     public String test(@RequestParam("name") String param,ModelMap model) {
-
         final Object monitor = new Object();
         SolveTask task = new SolveTask(monitor);
         TaskRunner taskRunner = new TaskRunner(PATH, () -> "Say hello to my little", task::onInput );
