@@ -1,4 +1,4 @@
-package com.filling;
+package ru.eltech.tprsystem.core.tasking;
 
 /**
  * Created by Semyon on 13.02.2016.

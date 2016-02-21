@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<spring:url value="/resources/style.css" var="mainCss" />
-<spring:url value="/resources/jQuery.js" var="jQuery" />
-<spring:url value="/resources/script.js" var="mainJs" />
+<spring:url value="/css/style.css" var="mainCss" />
+<spring:url value="/js/jQuery.js" var="jQuery" />
+<spring:url value="/js/script.js" var="mainJs" />
 <html>
 <head>
     <title>Решение типовых задачь по Теории принятия решений</title>

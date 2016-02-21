@@ -1,4 +1,4 @@
-package com.filling;
+package ru.eltech.tprsystem.core.tasking;
 
 public class SolveTask implements InputStreamHandler.InputHandler {
     private String result;
