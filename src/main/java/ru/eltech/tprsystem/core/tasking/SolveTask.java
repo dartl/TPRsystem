@@ -18,6 +18,11 @@ public class SolveTask implements InputStreamHandler.InputHandler {
         }
     }
 
+    @Override
+    public void onFinish() {
+
+    }
+
     public String getResult() {
         return result;
     }

@@ -64,6 +64,8 @@ public class InputStreamHandler extends Thread {
 
         void onInput(final String input);
 
+        void onFinish();
+
     }
 
     public boolean isRunning() {
