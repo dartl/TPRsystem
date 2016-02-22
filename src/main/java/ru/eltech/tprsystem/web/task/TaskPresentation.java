@@ -1,11 +1,14 @@
 package ru.eltech.tprsystem.web.task;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Semyon on 21.02.2016.
  */
 public class TaskPresentation {
+
+    private UUID taskId = null;
 
     private String inputData;
 
@@ -13,10 +16,11 @@ public class TaskPresentation {
 
     private Date timestamp;
 
-    public TaskPresentation(final String taskIdentifier, final String inputData, final Date timestamp) {
+    public TaskPresentation(final UUID taskId, final String taskIdentifier, final String inputData, final Date timestamp) {
         this.inputData = inputData;
         this.taskIdentifier = taskIdentifier;
         this.timestamp = timestamp;
+        this.taskId = taskId;
     }
 
     public String getInputData() {
@@ -43,4 +47,11 @@ public class TaskPresentation {
         this.timestamp = timestamp;
     }
 
+    public UUID getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(final UUID taskId) {
+        this.taskId = taskId;
+    }
 }

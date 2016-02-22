@@ -35,7 +35,7 @@ public class TaskService {
                 @Override
                 public void onFinish() {
                     wrapLock(() -> pendingTask.remove(taskRunner));
-                    HistoryItem historyItem = new HistoryItem(data, toString(), taskRunner.getName());
+                    HistoryItem historyItem = new HistoryItem(taskRunner.getTaskId(), data, toString(), taskRunner.getTaskName());
                     historyService.addItem(historyItem);
                 }
             });
@@ -47,7 +47,7 @@ public class TaskService {
         List<TaskPresentation> tasks = new ArrayList<>();
         wrapLock(() -> {
             for (TaskRunner taskRunner : pendingTask) {
-                tasks.add(new TaskPresentation(taskRunner.getTaskName(), taskRunner.getDataProvider().getData(), new Date()));
+                tasks.add(new TaskPresentation(taskRunner.getTaskId(), taskRunner.getTaskName(), taskRunner.getDataProvider().getData(), taskRunner.getTimestamp()));
             }
         });
         return tasks;

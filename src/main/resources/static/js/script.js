@@ -13,15 +13,22 @@ $(document).ready(function() {
 
         startPending = function() {
             var callback = function(history, running) {
-                $historyContainer.empty();
-                $pendingTasksContainer.empty();
+
                 for (var i = 0; i < history.length; i++) {
                     var historyItem = history[i];
-                    $historyContainer.append(renderTemplate("history-item-template", historyItem));
+                    var possiblyExecution = $("#pending" + historyItem.taskId);
+                    if (possiblyExecution.length > 0) {
+                        possiblyExecution.remove();
+                    }
+                    if (!$("#history" + historyItem.taskId).length) {
+                        $historyContainer.append(renderTemplate("history-item-template", historyItem, "history"));
+                    }
                 }
                 for (i = 0; i < running.length; i++) {
                     var runningItem = running[i];
-                    $pendingTasksContainer.append(renderTemplate("pending-task-template", runningItem));
+                    if (!$("#pending" + runningItem.taskId).length) {
+                        $pendingTasksContainer.append(renderTemplate("pending-task-template", runningItem, "pending"));
+                    }
                 }
             };
             timerId = setInterval(createPendingFunction(callback), 1500);
@@ -37,7 +44,7 @@ function SendPostContacts() // Наша функция, которая буде�
         url: "/trpsystem/solveForm", // Обработчик формы.
         data: jQuery(".active form").serialize(), // Этот метод, берет форму с id=form и достает оттуда данные
         success: function(html) {	// функция выполняемая при успешном отправлении данных
-            $(".active .resultArea").val(html);
+
         }
     });
 }
@@ -58,13 +65,18 @@ function createPendingFunction(callback) {
     };
 }
 
-function renderTemplate(templateId, object) {
+function renderTemplate(templateId, object, idPrefix) {
     var clone = $("#" + templateId).clone();
-    clone.removeAttr("id");
+    clone.attr("id", idPrefix + object.taskId);
+    clone.removeClass("template");
     var keys = Object.keys(object);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
         var value = object[key];
+        if (key == "timestamp") {
+            value = new Date(value);
+            value = value.getHours() + ":" + value.getMinutes() + ":" + value.getSeconds();
+        }
         clone.find("[data-field-name=" + key + "]").text(value);
     }
     return clone;

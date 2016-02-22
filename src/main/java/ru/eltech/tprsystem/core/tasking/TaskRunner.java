@@ -4,11 +4,16 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
 import java.io.*;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Semyon on 13.02.2016.
  */
 public class TaskRunner extends Thread {
+
+    @NotNull
+    private UUID taskId = UUID.randomUUID();
 
     @NotNull
     private String taskLoc;
@@ -22,10 +27,14 @@ public class TaskRunner extends Thread {
     @NotNull
     private String taskName;
 
+    @NotNull
+    private Date timestamp;
+
     public TaskRunner(@NotNull final String taskName, @NotNull final String taskLoc, @NotNull final DataProvider dataProvider) {
         this.taskName = taskName;
         this.taskLoc = taskLoc;
         this.dataProvider = dataProvider;
+        this.timestamp = new Date();
     }
 
     public void setInputHandler(@Nullable final InputStreamHandler.InputHandler inputHandler) {
@@ -36,7 +45,7 @@ public class TaskRunner extends Thread {
     public void run() {
         Runtime runtime = Runtime.getRuntime();
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
             Process process = runtime.exec(taskLoc);
 
             InputStream inputStream = process.getInputStream();
@@ -55,7 +64,7 @@ public class TaskRunner extends Thread {
             handler.setRunning(false);
 
             handler.join();
-            Thread.sleep(10000);
+            Thread.sleep(3000);
             inputHandler.onFinish();
         } catch (IOException e) {
             System.err.println("Error occured: ");
@@ -71,6 +80,18 @@ public class TaskRunner extends Thread {
 
     public DataProvider getDataProvider() {
         return dataProvider;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public UUID getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(final UUID taskId) {
+        this.taskId = taskId;
     }
 
 }
