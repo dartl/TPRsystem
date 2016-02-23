@@ -7,8 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.SessionTrackingMode;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -16,7 +21,7 @@ import java.util.List;
  */
 @EnableWebMvc
 @Configuration
-public class AppConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter {
+public class AppConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter implements WebApplicationInitializer {
 
     @Bean
     public MappingJackson2HttpMessageConverter customJackson2HttpMessageConverter() {
@@ -30,6 +35,15 @@ public class AppConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(customJackson2HttpMessageConverter());
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext)
+            throws ServletException {
+        HashSet<SessionTrackingMode> set = new HashSet<>();
+        set.add(SessionTrackingMode.COOKIE);
+        servletContext.setSessionTrackingModes(set);
+
     }
 
 }
