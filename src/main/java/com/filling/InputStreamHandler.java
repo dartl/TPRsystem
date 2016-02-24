@@ -1,8 +1,8 @@
 package com.filling;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.*;
 
 /**
@@ -10,7 +10,7 @@ import java.io.*;
  */
 public class InputStreamHandler extends Thread {
 
-    @NotNull
+    @Nonnull
     private InputStream stream;
 
     @Nullable
@@ -18,7 +18,7 @@ public class InputStreamHandler extends Thread {
 
     private boolean running = true;
 
-    public InputStreamHandler(@NotNull final InputStream stream, @Nullable final InputHandler callback) {
+    public InputStreamHandler(@Nonnull final InputStream stream, @Nullable final InputHandler callback) {
         this.stream = stream;
         this.callback = callback;
     }

@@ -1,8 +1,8 @@
 package com.filling;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.io.*;
 
 /**
@@ -10,16 +10,16 @@ import java.io.*;
  */
 public class TaskRunner extends Thread {
 
-    @NotNull
+    @Nonnull
     private String taskLoc;
 
     @Nullable
     private InputStreamHandler.InputHandler inputHandler;
 
-    @NotNull
+    @Nonnull
     private DataProvider dataProvider;
 
-    public TaskRunner(@NotNull final String taskLoc, @NotNull final DataProvider dataProvider, @Nullable final InputStreamHandler.InputHandler inputHandler) {
+    public TaskRunner(@Nonnull final String taskLoc, @Nonnull final DataProvider dataProvider, @Nullable final InputStreamHandler.InputHandler inputHandler) {
         this.taskLoc = taskLoc;
         this.dataProvider = dataProvider;
         this.inputHandler = inputHandler;
