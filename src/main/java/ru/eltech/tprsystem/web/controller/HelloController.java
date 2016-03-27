@@ -21,8 +21,6 @@ import java.util.Random;
 @RequestMapping("/")
 public class HelloController {
 
-    private static final String PATH = "E:\\development\\qtdev\\build-dme-test-Desktop_Qt_5_5_1_MinGW_32bit-Debug\\debug\\dme-test.exe";
-
     @Autowired
     private TaskService taskService;
 

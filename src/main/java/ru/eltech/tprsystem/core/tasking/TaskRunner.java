@@ -18,7 +18,7 @@ public class TaskRunner extends Thread {
     @Nonnull
     private String taskLoc;
 
-    @Nullable
+    @Nonnull
     private InputStreamHandler.InputHandler inputHandler;
 
     @Nonnull
@@ -37,7 +37,7 @@ public class TaskRunner extends Thread {
         this.timestamp = new Date();
     }
 
-    public void setInputHandler(@Nullable final InputStreamHandler.InputHandler inputHandler) {
+    public void setInputHandler(@Nonnull final InputStreamHandler.InputHandler inputHandler) {
         this.inputHandler = inputHandler;
     }
 
@@ -59,7 +59,7 @@ public class TaskRunner extends Thread {
             writer.write(data + "\n");
             writer.flush();
             while (process.isAlive()) {
-
+                //NOP
             }
             handler.setRunning(false);
 

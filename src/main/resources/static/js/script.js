@@ -77,6 +77,17 @@ function renderTemplate(templateId, object, idPrefix) {
             value = new Date(value);
             value = value.getHours() + ":" + value.getMinutes() + ":" + value.getSeconds();
         }
+        if (key == "inputData") {
+            value = JSON.parse(value);
+            var inputKeys = Object.keys(value);
+            var str = "";
+            for (var j = 0; j < inputKeys.length; j++) {
+                var k = inputKeys[j];
+                var v = value[k];
+                str = str + k + ": " + v + (j < inputKeys.length - 1 ? ", " : "");
+            }
+            value = str;
+        }
         clone.find("[data-field-name=" + key + "]").text(value);
     }
     return clone;
