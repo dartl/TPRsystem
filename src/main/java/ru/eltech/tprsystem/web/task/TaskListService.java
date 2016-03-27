@@ -3,6 +3,7 @@ package ru.eltech.tprsystem.web.task;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +28,8 @@ public class TaskListService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskListService.class);
 
-    public static final String PATH = "E:\\development\\modules\\";
+    @Value("${modules.folder}")
+    public String PATH;
 
     private List<TaskDefinition> tasks = new ArrayList<>();
 
@@ -56,6 +58,14 @@ public class TaskListService {
 
     public List<TaskDefinition> getTasks() {
         return tasks;
+    }
+
+    public String getPATH() {
+        return PATH;
+    }
+
+    public void setPATH(final String PATH) {
+        this.PATH = PATH;
     }
 
 }

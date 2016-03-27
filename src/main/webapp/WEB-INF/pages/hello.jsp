@@ -46,6 +46,7 @@
         <c:forEach items="${taskDefinitions}" var="task" varStatus="status">
             <div data-number="${status.index}">
                 <h3>Задача №${status.index}. <c:out value="${task.title}"/></h3>
+                <c:out value="${task.definition}"/>
                 <form action="" method="get">
                     <c:forEach items="${task.variables}" var="variable">
                         <p><span>Входное значение "<c:out value="${variable}"/>":</span> <input type="text" name="<c:out value="${variable}"/>"></p>
