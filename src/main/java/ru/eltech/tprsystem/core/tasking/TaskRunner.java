@@ -1,8 +1,8 @@
 package ru.eltech.tprsystem.core.tasking;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.util.Date;
 import java.util.UUID;
@@ -12,25 +12,25 @@ import java.util.UUID;
  */
 public class TaskRunner extends Thread {
 
-    @NotNull
+    @Nonnull
     private UUID taskId = UUID.randomUUID();
 
-    @NotNull
+    @Nonnull
     private String taskLoc;
 
     @Nullable
     private InputStreamHandler.InputHandler inputHandler;
 
-    @NotNull
+    @Nonnull
     private DataProvider dataProvider;
 
-    @NotNull
+    @Nonnull
     private String taskName;
 
-    @NotNull
+    @Nonnull
     private Date timestamp;
 
-    public TaskRunner(@NotNull final String taskName, @NotNull final String taskLoc, @NotNull final DataProvider dataProvider) {
+    public TaskRunner(@Nonnull final String taskName, @Nonnull final String taskLoc, @Nonnull final DataProvider dataProvider) {
         this.taskName = taskName;
         this.taskLoc = taskLoc;
         this.dataProvider = dataProvider;
