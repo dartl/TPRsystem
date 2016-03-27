@@ -4,15 +4,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.eltech.tprsystem.core.tasking.SolveTask;
-import ru.eltech.tprsystem.core.tasking.TaskRunner;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.eltech.tprsystem.web.history.HistoryService;
+import ru.eltech.tprsystem.web.task.TaskDefinition;
+import ru.eltech.tprsystem.web.task.TaskListService;
 import ru.eltech.tprsystem.web.task.TaskService;
 
 import java.util.HashMap;
@@ -31,21 +29,36 @@ public class HelloController {
     @Autowired
     private HistoryService historyService;
 
+    @Autowired
+    private TaskListService taskListService;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String printWelcome(final ModelMap model) {
+        model.addAttribute("taskDefinitions", taskListService.getTasks());
 		return "hello";
 	}
 
-    @RequestMapping(value = "/solveForm", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/solveForm/{taskId}",
+            method = RequestMethod.POST,
+            headers = {"content-type=application/x-www-form-urlencoded"},
+            produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Map> test(final @RequestParam("name") String param, final ModelMap model) {
-        taskService.startTask("Task" + (new Random().nextInt(1000)), PATH, "Say hello to my little");
+    public ResponseEntity<Map> test(final ModelMap model, @PathVariable final int taskId, @RequestBody final MultiValueMap<String, String> values) {
+
+        Map<String, String> vals =  values.entrySet()
+                .stream()
+                .collect(HashMap::new, (stringStringHashMap, e) -> stringStringHashMap.put(e.getKey(), e.getValue().get(0)), HashMap::putAll);
+
+        TaskDefinition taskDefinition = taskListService.getTasks().get(taskId);
+        JSONObject jsonObject = new JSONObject(vals);
+        taskService.startTask("Task" + (new Random().nextInt(1000)), taskDefinition.getPath(), jsonObject.toString());
         Map json = new HashMap<>();
         json.put("result", "success");
         return new ResponseEntity<Map>(json, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
     public ResponseEntity<Map> getSystemStatus(final ModelMap modelMap) {
         Map json = new HashMap<>();
         json.put("result", "success");

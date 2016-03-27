@@ -37,11 +37,11 @@ $(document).ready(function() {
     startPending();
 });
 
-function SendPostContacts() // Наша функция, которая будет осуществлять ajax-отправку
+function SendPostContacts(taskId) // Наша функция, которая будет осуществлять ajax-отправку
 {
     jQuery.ajax({	// Начала конструкции для работы с Ajax через jQuery
         type: "POST", // Метод, которым получаем данные из формы
-        url: "/trpsystem/solveForm", // Обработчик формы.
+        url: "/trpsystem/solveForm/" + taskId, // Обработчик формы.
         data: jQuery(".active form").serialize(), // Этот метод, берет форму с id=form и достает оттуда данные
         success: function(html) {	// функция выполняемая при успешном отправлении данных
 
