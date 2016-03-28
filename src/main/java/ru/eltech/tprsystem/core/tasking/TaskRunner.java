@@ -67,6 +67,7 @@ public class TaskRunner extends Thread {
             Thread.sleep(3000);
             inputHandler.onFinish();
         } catch (IOException e) {
+            inputHandler.onInput("\nПроизошла ошибка: " + e.getMessage());
             System.err.println("Error occured: ");
             e.printStackTrace(new PrintStream(System.err));
         } catch (InterruptedException e) {

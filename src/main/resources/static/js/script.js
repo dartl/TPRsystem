@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $(".navigation ul li").click(function() {
+    $(".list-group-item.task").click(function() {
         $(".tasks > div").fadeOut(400).removeClass("active");
         $(".tasks").children("[data-number="+$(this).attr("data-number")+"]").fadeIn(400).addClass("active");
     });

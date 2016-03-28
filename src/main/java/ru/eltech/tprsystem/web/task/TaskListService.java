@@ -48,8 +48,22 @@ public class TaskListService {
                         String json = sb.toString();
                         JSONObject jsonObject = new JSONObject(json);
                         File dir = new File(file).getParentFile();
-                        String exe = dir.list((unused, name) -> name.endsWith(".exe"))[0];
-                        tasks.add(TaskDefinition.parseJson(dir.getAbsolutePath() + "\\" + exe, jsonObject));
+
+                        String[] exeList = dir.list((unused, name) -> name.endsWith(".exe"));
+                        String[] jarList = dir.list((unused, name) -> name.endsWith(".jar"));
+                        String fileStartCommand = null;
+                        if (exeList.length > 0) {
+                            fileStartCommand = dir.getAbsolutePath() + "\\" + exeList[0];
+                        } else {
+                            if (jarList.length > 0) {
+                                fileStartCommand = "java -jar " + dir.getAbsolutePath() + "\\" + jarList[0];
+                            }
+                        }
+                        if (fileStartCommand != null) {
+                            tasks.add(TaskDefinition.parseJson(fileStartCommand, jsonObject));
+                        } else {
+                            LOGGER.warn("Module without exe or jar found in {}", dir.getAbsolutePath());
+                        }
                     } catch (IOException e) {
                         LOGGER.error("Error during module initialization: " + e.getMessage(), e);
                     }
