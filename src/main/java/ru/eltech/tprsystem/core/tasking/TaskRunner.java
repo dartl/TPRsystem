@@ -43,10 +43,13 @@ public class TaskRunner extends Thread {
 
     @Override
     public void run() {
-        Runtime runtime = Runtime.getRuntime();
         try {
             Thread.sleep(1000);
-            Process process = runtime.exec(taskLoc);
+            ProcessBuilder builder = new ProcessBuilder();
+            builder.command(taskLoc);
+            builder.redirectErrorStream(true);
+
+            final Process process = builder.start();
 
             InputStream inputStream = process.getInputStream();
             OutputStream outputStream = process.getOutputStream();
@@ -62,9 +65,12 @@ public class TaskRunner extends Thread {
                 //NOP
             }
             handler.setRunning(false);
-
             handler.join();
-            Thread.sleep(3000);
+
+            if (process.exitValue() != 0) {
+                inputHandler.onInput("При выполнении произошла ошибка! [" + process.exitValue() + "]");
+            }
+
             inputHandler.onFinish();
         } catch (IOException e) {
             inputHandler.onInput("\nПроизошла ошибка: " + e.getMessage());

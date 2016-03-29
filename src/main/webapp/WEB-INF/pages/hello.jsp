@@ -7,7 +7,7 @@
 <spring:url value="/js/script.js" var="mainJs"/>
 <html>
 <head>
-    <title>Решение типовых задачь по Теории принятия решений</title>
+    <title>Решение типовых задач по Теории принятия решений</title>
     <link href="${mainCss}" rel="stylesheet"/>
     <link href="${bootstrap}" rel="stylesheet"/>
     <script src="${jQuery}"></script>
