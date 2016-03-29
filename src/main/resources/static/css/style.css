@@ -40,13 +40,11 @@ h2 {
 
 
 .tasks {
-    position: relative;
     padding: 0 10px;
     margin-top: 30px;
 }
 
 .tasks > div {
-    position: absolute;
     top: 0;
     display: none;
 }
