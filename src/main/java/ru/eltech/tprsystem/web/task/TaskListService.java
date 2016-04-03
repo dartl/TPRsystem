@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,8 +40,11 @@ public class TaskListService {
                 .forEach(file -> {
                     try {
                         StringBuilder sb = new StringBuilder();
-                        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file)));) {
-                            sb.append(bufferedReader.readLine());
+                        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+                            String line = null;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                sb.append(line);
+                            }
                         }
                         String json = sb.toString();
                         JSONObject jsonObject = new JSONObject(json);

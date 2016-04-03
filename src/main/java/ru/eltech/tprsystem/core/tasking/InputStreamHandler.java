@@ -29,7 +29,7 @@ public class InputStreamHandler extends Thread {
         try {
             while (running || stream.available() > 0) {
                 String line = "";
-                while (!((line = readFully(stream, "UTF-8")).isEmpty())) {
+                while (!((line = readFully(stream, "CP866")).isEmpty())) {
                     if (callback != null) {
                         callback.onInput(line);
                     }
