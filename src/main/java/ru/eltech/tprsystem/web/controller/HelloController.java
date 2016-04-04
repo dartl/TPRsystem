@@ -49,7 +49,7 @@ public class HelloController {
 
         TaskDefinition taskDefinition = taskListService.getTasks().get(taskId);
         JSONObject jsonObject = new JSONObject(vals);
-        taskService.startTask("Task" + (new Random().nextInt(1000)), taskDefinition.getPath(), jsonObject.toString());
+        taskService.startTask(taskDefinition.getTitle() + " " + (new Random().nextInt(1000)), taskDefinition.getPath(), jsonObject.toString());
         Map json = new HashMap<>();
         json.put("result", "success");
         return new ResponseEntity<Map>(json, HttpStatus.OK);
