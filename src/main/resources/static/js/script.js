@@ -1,18 +1,18 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $(".list-group-item.task").click(function() {
+    $(".list-group-item.task").click(function () {
         $(".tasks > div").fadeOut(400).removeClass("active");
-        $(".tasks").children("[data-number="+$(this).attr("data-number")+"]").fadeIn(400).addClass("active");
+        $(".tasks").children("[data-number=" + $(this).attr("data-number") + "]").fadeIn(400).addClass("active");
     });
 
     var startPending = null;
-    (function() {
+    (function () {
         var timerId = -1;
         var $historyContainer = $("#system-history");
         var $pendingTasksContainer = $("#pending-tasks");
 
-        startPending = function() {
-            var callback = function(history, running) {
+        startPending = function () {
+            var callback = function (history, running) {
 
                 for (var i = 0; i < history.length; i++) {
                     var historyItem = history[i];
@@ -24,6 +24,21 @@ $(document).ready(function() {
                         $historyContainer.append(renderTemplate("history-item-template", historyItem, "history"));
                     }
                 }
+                $historyContainer.children().each(function (zzz, e) {
+                    var id = $(e).attr("id");
+                    id = id.replace("history", "");
+                    var isStillInHistory = false;
+                    for (var i = 0; i < history.length; i++) {
+                        var historyItem = history[i];
+                        if (historyItem.taskId == id) {
+                            isStillInHistory = true;
+                            break;
+                        }
+                    }
+                    if (!isStillInHistory) {
+                        $(e).remove();
+                    }
+                });
                 for (i = 0; i < running.length; i++) {
                     var runningItem = running[i];
                     if (!$("#pending" + runningItem.taskId).length) {
@@ -43,20 +58,20 @@ function SendPostContacts(taskId) // Наша функция, которая б�
         type: "POST", // Метод, которым получаем данные из формы
         url: "/trpsystem/solveForm/" + taskId, // Обработчик формы.
         data: jQuery(".active form").serialize(), // Этот метод, берет форму с id=form и достает оттуда данные
-        success: function(html) {	// функция выполняемая при успешном отправлении данных
+        success: function (html) {	// функция выполняемая при успешном отправлении данных
 
         }
     });
 }
 
 function createPendingFunction(callback) {
-    return function() {
+    return function () {
         jQuery.ajax({
             type: "GET",
             url: "/trpsystem/status",
             contentType: "application/json",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 var history = data.history;
                 var running = data.running;
                 callback(history, running);

@@ -14,6 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class InMemoryHistoryService implements HistoryService {
 
+    private int max = 3;
+
     private final List<HistoryItem> historyItems = Collections.synchronizedList(new ArrayList<>());
 
     @Override
@@ -29,6 +31,9 @@ public class InMemoryHistoryService implements HistoryService {
     public void addItem(final HistoryItem historyItem) {
         synchronized (historyItems) {
             historyItems.add(historyItem);
+            if (historyItems.size() > max) {
+                historyItems.remove(0);
+            }
         }
     }
 
