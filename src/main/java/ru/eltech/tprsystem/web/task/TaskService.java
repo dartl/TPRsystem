@@ -9,7 +9,6 @@ import ru.eltech.tprsystem.web.history.HistoryService;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -20,11 +19,9 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class TaskService {
 
+    private final Lock lock = new ReentrantLock();
     @Autowired
     private HistoryService historyService;
-
-    private final Lock lock = new ReentrantLock();
-
     private List<TaskRunner> pendingTask = Collections.synchronizedList(new ArrayList<>());
 
     public void startTask(final String taskName, final String taskPath, final String data) {

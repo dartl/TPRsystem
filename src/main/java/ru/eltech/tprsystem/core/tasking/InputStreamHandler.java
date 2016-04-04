@@ -59,6 +59,13 @@ public class InputStreamHandler extends Thread {
         return baos.toByteArray();
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(final boolean running) {
+        this.running = running;
+    }
 
     public interface InputHandler {
 
@@ -66,13 +73,5 @@ public class InputStreamHandler extends Thread {
 
         void onFinish();
 
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
-    public void setRunning(final boolean running) {
-        this.running = running;
     }
 }

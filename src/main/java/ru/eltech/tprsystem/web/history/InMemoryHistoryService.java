@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Semyon on 21.02.2016.
@@ -14,9 +12,8 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class InMemoryHistoryService implements HistoryService {
 
-    private int max = 3;
-
     private final List<HistoryItem> historyItems = Collections.synchronizedList(new ArrayList<>());
+    private int max = 3;
 
     @Override
     public List<HistoryItem> getHistory() {

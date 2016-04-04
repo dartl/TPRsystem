@@ -39,7 +39,7 @@ public class AppConfig extends WebMvcAutoConfiguration.WebMvcAutoConfigurationAd
     @Bean
     public FormHttpMessageConverter formHttpMessageConverter() {
         FormHttpMessageConverter converter = new FormHttpMessageConverter();
-        MediaType mediaType = new MediaType("application","x-www-form-urlencoded", Charset.forName("UTF-8"));
+        MediaType mediaType = new MediaType("application", "x-www-form-urlencoded", Charset.forName("UTF-8"));
         converter.setSupportedMediaTypes(Arrays.asList(mediaType));
         return converter;
     }

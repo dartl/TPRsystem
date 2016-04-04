@@ -13,13 +13,13 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 @SpringBootApplication
 public class TRPApplication extends SpringBootServletInitializer {
 
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(TRPApplication.class, args);
+    }
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(TRPApplication.class);
-    }
-
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(TRPApplication.class, args);
     }
 
 }

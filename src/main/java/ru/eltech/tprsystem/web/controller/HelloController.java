@@ -4,10 +4,10 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import ru.eltech.tprsystem.web.history.HistoryService;
 import ru.eltech.tprsystem.web.task.TaskDefinition;
 import ru.eltech.tprsystem.web.task.TaskListService;
@@ -30,11 +30,11 @@ public class HelloController {
     @Autowired
     private TaskListService taskListService;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String printWelcome(final ModelMap model) {
+    @RequestMapping(method = RequestMethod.GET)
+    public String printWelcome(final ModelMap model) {
         model.addAttribute("taskDefinitions", taskListService.getTasks());
-		return "hello";
-	}
+        return "hello";
+    }
 
     @RequestMapping(value = "/solveForm/{taskId}",
             method = RequestMethod.POST,
@@ -43,7 +43,7 @@ public class HelloController {
     @ResponseBody
     public ResponseEntity<Map> test(final ModelMap model, @PathVariable final int taskId, @RequestBody final MultiValueMap<String, String> values) {
 
-        Map<String, String> vals =  values.entrySet()
+        Map<String, String> vals = values.entrySet()
                 .stream()
                 .collect(HashMap::new, (stringStringHashMap, e) -> stringStringHashMap.put(e.getKey(), e.getValue().get(0)), HashMap::putAll);
 

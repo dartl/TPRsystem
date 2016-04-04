@@ -28,6 +28,18 @@ public class TaskDefinition {
         this.path = path;
     }
 
+    public static TaskDefinition parseJson(final String path, final JSONObject jsonObject) {
+        JSONArray variables = jsonObject.optJSONArray("variables");
+        String definition = jsonObject.optString("definition");
+        String title = jsonObject.optString("title");
+
+        Iterable<Object> iterable = variables::iterator;
+        Stream<Object> targetStream = StreamSupport.stream(iterable.spliterator(), false);
+        ArrayList<String> vars = targetStream.collect(ArrayList<String>::new, (strings, o) -> strings.add(o.toString()), ArrayList::addAll);
+
+        return new TaskDefinition(vars, definition, title, path);
+    }
+
     public List<String> getVariables() {
         return variables;
     }
@@ -58,18 +70,6 @@ public class TaskDefinition {
 
     public void setPath(final String path) {
         this.path = path;
-    }
-
-    public static TaskDefinition parseJson(final String path, final JSONObject jsonObject) {
-        JSONArray variables = jsonObject.optJSONArray("variables");
-        String definition = jsonObject.optString("definition");
-        String title = jsonObject.optString("title");
-
-        Iterable<Object> iterable = variables::iterator;
-        Stream<Object> targetStream = StreamSupport.stream(iterable.spliterator(), false);
-        ArrayList<String> vars = targetStream.collect(ArrayList<String>::new, (strings, o) -> strings.add(o.toString()), ArrayList::addAll);
-
-        return new TaskDefinition(vars, definition, title, path);
     }
 
 }
