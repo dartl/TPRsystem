@@ -3,6 +3,7 @@ package ru.eltech.tprsystem.core.tasking;
 
 import javax.annotation.Nonnull;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 
@@ -45,7 +46,7 @@ public class TaskRunner extends Thread {
         try {
             Thread.sleep(1000);
             ProcessBuilder builder = new ProcessBuilder();
-            builder.command(taskLoc);
+            builder.command(taskLoc.split(" "));
             builder.redirectErrorStream(true);
 
             final Process process = builder.start();
@@ -53,7 +54,12 @@ public class TaskRunner extends Thread {
             InputStream inputStream = process.getInputStream();
             OutputStream outputStream = process.getOutputStream();
 
-            InputStreamHandler handler = new InputStreamHandler(inputStream, inputHandler);
+            InputStreamHandler handler;
+            if (taskLoc.endsWith(".jar")) {
+                handler = new InputStreamHandler(inputStream, inputHandler, "CP1251");
+            } else {
+                handler = new InputStreamHandler(inputStream, inputHandler);
+            }
             handler.start();
 
             String data = dataProvider.getData();

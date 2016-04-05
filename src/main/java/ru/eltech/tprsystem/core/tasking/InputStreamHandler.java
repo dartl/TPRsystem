@@ -10,6 +10,8 @@ import java.io.*;
  */
 public class InputStreamHandler extends Thread {
 
+    private static final String DEFAULT_ENCODING = "CP866";
+
     @Nonnull
     private InputStream stream;
 
@@ -18,9 +20,18 @@ public class InputStreamHandler extends Thread {
 
     private boolean running = true;
 
+    private String encoding;
+
     public InputStreamHandler(@Nonnull final InputStream stream, @Nullable final InputHandler callback) {
         this.stream = stream;
         this.callback = callback;
+        this.encoding = DEFAULT_ENCODING;
+    }
+
+    public InputStreamHandler(@Nonnull final InputStream stream, final InputHandler callback, final String encoding) {
+        this.stream = stream;
+        this.callback = callback;
+        this.encoding = encoding;
     }
 
     @Override
@@ -29,7 +40,7 @@ public class InputStreamHandler extends Thread {
         try {
             while (running || stream.available() > 0) {
                 String line = "";
-                while (!((line = readFully(stream, "CP866")).isEmpty())) {
+                while (!((line = readFully(stream, encoding)).isEmpty())) {
                     if (callback != null) {
                         callback.onInput(line);
                     }

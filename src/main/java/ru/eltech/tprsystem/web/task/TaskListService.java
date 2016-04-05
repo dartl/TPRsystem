@@ -24,6 +24,9 @@ public class TaskListService {
     @Value("${modules.folder}")
     public String PATH;
 
+    @Value("${javapath}")
+    public String JAVA_PATH;
+
     private List<TaskDefinition> tasks = new ArrayList<>();
 
     @PostConstruct
@@ -52,7 +55,7 @@ public class TaskListService {
                             fileStartCommand = dir.getAbsolutePath() + "\\" + exeList[0];
                         } else {
                             if (jarList.length > 0) {
-                                fileStartCommand = "java -jar " + dir.getAbsolutePath() + "\\" + jarList[0];
+                                fileStartCommand = JAVA_PATH + " -jar " + dir.getAbsolutePath() + "\\" + jarList[0];
                             }
                         }
                         if (fileStartCommand != null) {
